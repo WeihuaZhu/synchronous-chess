@@ -1,4 +1,4 @@
-package com.whzhu.chess;
+package com.whzhu.chess.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

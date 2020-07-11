@@ -1,4 +1,4 @@
-package com.whzhu.chess;
+package com.whzhu.chess.controllers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
