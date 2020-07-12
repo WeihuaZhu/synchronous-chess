@@ -1,12 +1,17 @@
 package com.whzhu.chess.models;
 
 public abstract class ChessPiece implements ChessPieceRule {
-  private boolean alive;
+  protected int x;
+  protected int y;
+  protected Color color;
+  protected boolean alive;
 
-  public abstract boolean move(int x, int y, MoveStrategy mv);
+  public abstract boolean move(int destX, int destY);
 
-  public ChessPiece() {
+  public ChessPiece(int x, int y, Color color) {
     this.alive = true;
+    this.x = x;
+    this.y = y;
   }
 
   public void setDead() {

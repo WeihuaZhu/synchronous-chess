@@ -1,20 +1,18 @@
 package com.whzhu.chess.models;
 
 public class Knight extends ChessPiece {
-  private int x;
-  private int y;
 
-  public Knight() {
-    super();
+  public Knight(int x, int y, Color color) {
+    super(x, y, color);
   }
 
   @Override
-  public boolean move(int x, int y, MoveStrategy mv) {
+  public boolean move(int destX, int destY) {
     return false;
   }
 
   @Override
-  public boolean validMove() {
+  public boolean validMove(int destX, int destY) {
     return false;
   }
 }
