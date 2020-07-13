@@ -2,17 +2,13 @@ package com.whzhu.chess.models;
 
 public class Rook extends ChessPiece {
 
-  public Rook(int x, int y, Color color) {
-    super(x, y, color);
+  public Rook(int row, int col, Color color) {
+    super(row, col, color, "Rook");
+    canBeBlocked = true;
   }
 
   @Override
-  public boolean move(int destX, int destY) {
-    return false;
-  }
-
-  @Override
-  public boolean validMove(int destX, int destY) {
-    return false;
+  public boolean validMove(int destRow, int destCol, boolean captureMove) {
+    return destRow == row || destCol == col;
   }
 }

@@ -1,20 +1,44 @@
 package com.whzhu.chess.models;
 
 public abstract class ChessPiece implements ChessPieceRule {
-  protected int x;
-  protected int y;
+  protected int row;
+  protected int col;
   protected Color color;
   protected boolean alive;
+  protected String role;
+  protected boolean canBeBlocked;
 
-  public abstract boolean move(int destX, int destY);
-
-  public ChessPiece(int x, int y, Color color) {
+  public ChessPiece(int row, int col, Color color, String role) {
     this.alive = true;
-    this.x = x;
-    this.y = y;
+    this.row = row;
+    this.col = col;
+    this.role = role;
+    this.color = color;
   }
 
   public void setDead() {
     this.alive = false;
+  }
+
+  public Color getColor() {
+    return color;
+  }
+
+  public int getRow() {
+    return row;
+  }
+
+  public int getCol() {
+    return col;
+  }
+
+  protected void setPosition(int row, int col) {
+    this.row = row;
+    this.col = col;
+  }
+
+  @Override
+  public String toString() {
+    return String.format("%s-%s", role, color.toString());
   }
 }

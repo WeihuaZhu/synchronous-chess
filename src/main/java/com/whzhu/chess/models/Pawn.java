@@ -3,22 +3,46 @@ package com.whzhu.chess.models;
 public class Pawn extends ChessPiece {
   private boolean atInitPosition;
 
-  public Pawn(int x, int y, Color color) {
-    super(x, y, color);
-    this.atInitPosition = true;
+  public Pawn(int row, int col, Color color) {
+    super(row, col, color, "Pawn");
+    canBeBlocked = true;
+    atInitPosition = true;
   }
 
+  // TODO refactor move logic using strategy design pattern
   @Override
-  public boolean move(int destX, int destY) {
-    return false;
-  }
-
-  @Override
-  public boolean validMove(int destX, int destY) {
-    if (atInitPosition) {
-      return destX == x && destY - y > 0 && destY - y <= 2;
+  public boolean validMove(int destRow, int destCol, boolean captureMove) {
+    boolean isValidMove = false;
+    if (color == Color.WHITE) {
+      isValidMove = validMoveForWhite(destRow, destCol, captureMove);
+    } else if (color == Color.BLACK) {
+      isValidMove = validMoveForBlack(destRow, destCol, captureMove);
     } else {
-      return destX == x && destY - y == 1;
+      // TODO throw/handle exception here, color not set
+    }
+    if (isValidMove) {
+      atInitPosition = false;
+    }
+    return isValidMove;
+  }
+
+  private boolean validMoveForWhite(int destRow, int destCol, boolean captureMove) {
+    if (captureMove) {
+      return destRow == row + 1 && (destCol == col - 1) || (destCol == col + 1);
+    } else if (atInitPosition) {
+      return (destRow == row + 1 || destRow == row + 2) && destCol == col;
+    } else {
+      return destRow == row + 1 && destCol == col;
+    }
+  }
+
+  private boolean validMoveForBlack(int destRow, int destCol, boolean captureMove) {
+    if (captureMove) {
+      return destRow == row - 1 && (destCol == col - 1) || (destCol == col + 1);
+    } else if (atInitPosition) {
+      return (destRow == row - 1 || destRow == row - 2) && destCol == col;
+    } else {
+      return destRow == row - 1 && destCol == col;
     }
   }
 }
