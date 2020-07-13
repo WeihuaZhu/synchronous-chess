@@ -157,25 +157,12 @@ public class ChessGame {
     return row >= 0 && row < 8 && col >= 0 && col < 8;
   }
 
-  public static void main(String[] args) {
-    Player p1 = new Player(1, "p1");
-    Player p2 = new Player(2, "p2");
-    ChessGame g = new ChessGame(p1, p2);
+  public String toString() {
+    StringBuilder snapShot = new StringBuilder();
     for (int i = 7; i >= 0; i--) {
-      System.out.println(Arrays.toString(g.chessBoard[i]));
+      snapShot.append(Arrays.toString(chessBoard[i]));
+      snapShot.append("\n");
     }
-    System.out.println("\n\n");
-
-    System.out.println(g.makeMove(g.chessBoard[1][0], 3, 0));
-    for (int i = 7; i >= 0; i--) {
-      System.out.println(Arrays.toString(g.chessBoard[i]));
-    }
-    System.out.println("\n\n");
-
-    System.out.println(g.makeMove(g.chessBoard[6][0], 4, 0));
-    for (int i = 7; i >= 0; i--) {
-      System.out.println(Arrays.toString(g.chessBoard[i]));
-    }
-    System.out.println("\n\n");
+    return snapShot.toString();
   }
 }
