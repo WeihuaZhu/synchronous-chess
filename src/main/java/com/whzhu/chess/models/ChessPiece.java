@@ -32,6 +32,10 @@ public abstract class ChessPiece implements ChessPieceRule {
     return col;
   }
 
+  public boolean isAlive() {
+    return alive;
+  }
+
   protected void setPosition(int row, int col) {
     this.row = row;
     this.col = col;

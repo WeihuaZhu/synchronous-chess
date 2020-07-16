@@ -2,13 +2,19 @@ package com.whzhu.chess.models;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ChessGame {
   private Player whitePlayer;
   private Player blackPlayer;
   private Player currentPlayer;
+  private ChessPiece whiteKing;
+  private ChessPiece blackKing;
   public ChessPiece[][] chessBoard;
+  private Set<ChessPiece> aliveWhitePieces;
+  private Set<ChessPiece> aliveBlackPieces;
 
   public ChessGame(Player whitePlayer, Player blackPlayer) {
     this.whitePlayer = whitePlayer;
@@ -25,31 +31,69 @@ public class ChessGame {
     }
   }
 
+  public Player getBlackPlayer() {
+    return blackPlayer;
+  }
+
+  public Player getWhitePlayer() {
+    return whitePlayer;
+  }
+
+  public Player getCurrentPlayer() {
+    return currentPlayer;
+  }
+
+  public Set<ChessPiece> getAliveWhitePieces() {
+    return aliveWhitePieces;
+  }
+
+  public Set<ChessPiece> getAliveBlackPieces() {
+    return aliveBlackPieces;
+  }
+
   public void initializeChessBoard() {
     chessBoard = new ChessPiece[8][8];
+    aliveWhitePieces = new HashSet<ChessPiece>();
+    aliveBlackPieces = new HashSet<ChessPiece>();
+
     for (int i = 0; i < 8; i++) {
       chessBoard[1][i] = new Pawn(1, i, Color.WHITE);
       chessBoard[6][i] = new Pawn(6, i, Color.BLACK);
     }
     chessBoard[0][0] = new Rook(0, 0, Color.WHITE);
-    chessBoard[0][1] = new Knight(0, 0, Color.WHITE);
-    chessBoard[0][2] = new Bishop(0, 0, Color.WHITE);
-    chessBoard[0][3] = new Queen(0, 0, Color.WHITE);
-    chessBoard[0][4] = new King(0, 0, Color.WHITE);
-    chessBoard[0][5] = new Bishop(0, 0, Color.WHITE);
-    chessBoard[0][6] = new Knight(0, 0, Color.WHITE);
-    chessBoard[0][7] = new Rook(0, 0, Color.WHITE);
+    chessBoard[0][1] = new Knight(0, 1, Color.WHITE);
+    chessBoard[0][2] = new Bishop(0, 2, Color.WHITE);
+    chessBoard[0][3] = new Queen(0, 3, Color.WHITE);
+    chessBoard[0][4] = new King(0, 4, Color.WHITE);
+    chessBoard[0][5] = new Bishop(0, 5, Color.WHITE);
+    chessBoard[0][6] = new Knight(0, 6, Color.WHITE);
+    chessBoard[0][7] = new Rook(0, 7, Color.WHITE);
 
-    chessBoard[7][0] = new Rook(0, 0, Color.BLACK);
-    chessBoard[7][1] = new Knight(0, 0, Color.BLACK);
-    chessBoard[7][2] = new Bishop(0, 0, Color.BLACK);
-    chessBoard[7][3] = new Queen(0, 0, Color.BLACK);
-    chessBoard[7][4] = new King(0, 0, Color.BLACK);
-    chessBoard[7][5] = new Bishop(0, 0, Color.BLACK);
-    chessBoard[7][6] = new Knight(0, 0, Color.BLACK);
-    chessBoard[7][7] = new Rook(0, 0, Color.BLACK);
+    chessBoard[7][0] = new Rook(7, 0, Color.BLACK);
+    chessBoard[7][1] = new Knight(7, 1, Color.BLACK);
+    chessBoard[7][2] = new Bishop(7, 2, Color.BLACK);
+    chessBoard[7][3] = new Queen(7, 3, Color.BLACK);
+    chessBoard[7][4] = new King(7, 4, Color.BLACK);
+    chessBoard[7][5] = new Bishop(7, 5, Color.BLACK);
+    chessBoard[7][6] = new Knight(7, 6, Color.BLACK);
+    chessBoard[7][7] = new Rook(7, 7, Color.BLACK);
+
+    whiteKing = chessBoard[0][4];
+    blackKing = chessBoard[7][4];
+
+    for (int i = 0; i <= 1; i++) {
+      for (int j = 0; j < 8; j++) {
+        aliveWhitePieces.add(chessBoard[i][j]);
+      }
+    }
+    for (int i = 7; i >= 6; i--) {
+      for (int j = 0; j < 8; j++) {
+        aliveBlackPieces.add(chessBoard[i][j]);
+      }
+    }
   }
 
+  // TODO implement checkmate and update makeMove to check after move, is not checked.
   public boolean makeMove(ChessPiece piece, int destRow, int destCol) {
     int row = piece.getRow();
     int col = piece.getCol();
@@ -85,6 +129,11 @@ public class ChessGame {
       // captured piece set dead
       if (chessBoard[destRow][destCol] != null) {
         chessBoard[destRow][destCol].setDead();
+        if (aliveWhitePieces.contains(chessBoard[destRow][destCol])) {
+          aliveWhitePieces.remove(chessBoard[destRow][destCol]);
+        } else {
+          aliveBlackPieces.remove(chessBoard[destRow][destCol]);
+        }
       }
       // move piece to dest position
       chessBoard[row][col] = null;
@@ -94,6 +143,14 @@ public class ChessGame {
       switchPlayer();
     }
     return isValidMove;
+  }
+
+  public boolean currentPlayerLoses() {
+    if (currentPlayer == whitePlayer) {
+      return !aliveWhitePieces.contains(whiteKing);
+    } else {
+      return !aliveBlackPieces.contains(blackKing);
+    }
   }
 
   private boolean blockCheck(int row, int col, int destRow, int destCol) {
