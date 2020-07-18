@@ -1,12 +1,10 @@
 package com.whzhu.chess.models;
 
 public class Pawn extends ChessPiece {
-  private boolean atInitPosition;
 
   public Pawn(int row, int col, Color color) {
     super(row, col, color, "Pawn");
     canBeBlocked = true;
-    atInitPosition = true;
   }
 
   // TODO refactor move logic using strategy design pattern
@@ -19,9 +17,6 @@ public class Pawn extends ChessPiece {
       isValidMove = validMoveForBlack(destRow, destCol, captureMove);
     } else {
       // TODO throw/handle exception here, color not set
-    }
-    if (isValidMove) {
-      atInitPosition = false;
     }
     return isValidMove;
   }
