@@ -7,9 +7,11 @@ public abstract class ChessPiece implements ChessPieceRule {
   protected boolean alive;
   protected String role;
   protected boolean canBeBlocked;
+  protected boolean atInitPosition;
 
   public ChessPiece(int row, int col, Color color, String role) {
     this.alive = true;
+    this.atInitPosition = true;
     this.row = row;
     this.col = col;
     this.role = role;
@@ -39,6 +41,7 @@ public abstract class ChessPiece implements ChessPieceRule {
   protected void setPosition(int row, int col) {
     this.row = row;
     this.col = col;
+    this.atInitPosition = false; // not atInitPosition once moved
   }
 
   @Override

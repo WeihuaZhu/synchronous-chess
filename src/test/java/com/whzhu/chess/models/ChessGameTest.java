@@ -52,4 +52,13 @@ public class ChessGameTest {
     Assertions.assertTrue(game.makeMove(game.chessBoard[3][2], 6, 5));
     Assertions.assertTrue(game.currentPlayerLoses());
   }
+
+  @Test
+  public void testPawnMoves() throws Exception {
+    Assertions.assertTrue(game.makeMove(game.chessBoard[1][2], 3, 2));
+    Assertions.assertTrue(game.makeMove(game.chessBoard[6][4], 4, 4));
+    Assertions.assertFalse(game.makeMove(game.chessBoard[3][2], 5, 2));
+    Assertions.assertFalse(game.makeMove(game.chessBoard[3][2], 4, 3));
+    Assertions.assertTrue(game.makeMove(game.chessBoard[3][2], 4, 2));
+  }
 }
